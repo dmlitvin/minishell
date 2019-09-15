@@ -19,33 +19,38 @@ static void	del_variable(void *content, size_t content_size)
 	(void)content_size;
 	free(variable->key);
 	free(variable->value);
+	free(content);
+}
+
+static t_list	*del_get_next(t_list *lst)
+{
+	t_list	*next;
+
+	next = lst->next;
+	ft_lstdelone(&lst, del_variable);
+	return (next);
 }
 
 void		delete_env(char *key, t_minishell *shell_info)
 {
 	t_list		*list;
 
-	if (!shell_info->av[1])
-		ft_putendl_fd("usage: unsetenv key", 2);
+	shell_info->last_exit_code = 0;
 	list = shell_info->env_list;
 	if (ft_strequ(((t_variable*)list->content)->key, key))
 	{
-		shell_info->env_list = list->next;
-		ft_lstdelone(&list, del_variable);
-		shell_info->last_exit_code = 0;
+		shell_info->env_list = del_get_next(list);
 		return ;
 	}
-	else
-		while (list->next)
+	while (list->next)
+	{
+		if (ft_strequ(((t_variable*)list->next->content)->key, key))
 		{
-			if (ft_strequ(((t_variable*)list->next->content)->key, key))
-			{
-				ft_lstdelone(&list->next, del_variable);
-				shell_info->last_exit_code = 0;
-				return ;
-			}
-			list = list->next;
+			list->next = del_get_next(list->next);
+			return ;
 		}
+		list = list->next;
+	}
 	shell_info->last_exit_code = 1;
 }
 
