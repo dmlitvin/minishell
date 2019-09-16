@@ -12,11 +12,24 @@
 
 #include "minishell.h"
 
-void	set_env(t_minishell *shell_info)
+int			key_cmp(void *content_list, void *content)
 {
+	const char			*key = content;
+	const t_variable	*variable_right = content_list;
+
+	return (ft_strequ(key, variable_right->key));
+}
+
+void		set_env(t_minishell *shell_info)
+{
+	t_list	*variable;
+
 	if (shell_info->av[1] && shell_info->av[2] && !shell_info->av[3])
 	{
-		ft_lstadd_end(&shell_info->env_list,
+		variable = ft_lstfind(shell_info->env_list, shell_info->av[1], key_cmp);
+		if (variable)
+			delete_env(((t_variable*)variable->content)->key, shell_info);
+		ft_lstadd(&shell_info->env_list,
 				make_variable(shell_info->av[1], shell_info->av[2]));
 		shell_info->last_exit_code = 0;
 	}
@@ -27,7 +40,7 @@ void	set_env(t_minishell *shell_info)
 	}
 }
 
-void	env(t_minishell *shell_info)
+void		env(t_minishell *shell_info)
 {
 	t_variable	*variable;
 	t_list		*list;
@@ -42,7 +55,7 @@ void	env(t_minishell *shell_info)
 	shell_info->last_exit_code = 0;
 }
 
-void	unset_env(t_minishell *shell_info)
+void		unset_env(t_minishell *shell_info)
 {
 	if (shell_info->av[1] && !shell_info->av[2])
 	{
@@ -59,4 +72,12 @@ void	unset_env(t_minishell *shell_info)
 		ft_putendl_fd("usage: unsetenv key", 2);
 		shell_info->last_exit_code = 1;
 	}
+}
+
+char		*get_env(char *key, t_minishell *shell_info)
+{
+	t_list	*variable;
+
+	variable = ft_lstfind(shell_info->env_list, key, key_cmp);
+	return (variable ? ((t_variable*)variable->content)->value : 0);
 }

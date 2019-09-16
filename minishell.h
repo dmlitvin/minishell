@@ -14,6 +14,8 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include <dirent.h>
+# include <errno.h>
 
 typedef	struct	s_variable
 {
@@ -35,10 +37,12 @@ extern void			(*g_built_in_func_list[])(t_minishell*);
 
 t_list			*init_variables(char **env);
 t_list			*make_variable(char *key, char *value);
+char			*get_env(char *key, t_minishell *shell_info);
 void			delete_env(char *key, t_minishell *shell_info);
 char			**split_arguments(char *line);
 
 void			execute_command(t_minishell *shell_info);
+char			*find_executable(char **paths, t_minishell *shell_info);
 
 void			echo(t_minishell *shell_info);
 void			cd(t_minishell *shell_info);
@@ -46,5 +50,6 @@ void			env(t_minishell *shell_info);
 void			set_env(t_minishell *shell_info);
 void			unset_env(t_minishell *shell_info);
 void			exit_shell(t_minishell *shell_info);
+int				key_cmp(void *content_list, void *content);
 
 #endif

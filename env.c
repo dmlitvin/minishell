@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	del_variable(void *content, size_t content_size)
+static void		del_variable(void *content, size_t content_size)
 {
 	const t_variable	*variable = content;
 
@@ -31,7 +31,7 @@ static t_list	*del_get_next(t_list *lst)
 	return (next);
 }
 
-void		delete_env(char *key, t_minishell *shell_info)
+void			delete_env(char *key, t_minishell *shell_info)
 {
 	t_list		*list;
 
@@ -54,7 +54,7 @@ void		delete_env(char *key, t_minishell *shell_info)
 	shell_info->last_exit_code = 1;
 }
 
-t_list		*make_variable(char *key, char *value)
+t_list			*make_variable(char *key, char *value)
 {
 	size_t		str_size;
 	t_variable	variable;
@@ -66,7 +66,7 @@ t_list		*make_variable(char *key, char *value)
 	return (ft_lstnew(&variable, sizeof(t_variable)));
 }
 
-t_list		*init_variables(char **env)
+t_list			*init_variables(char **env)
 {
 	char	*key;
 	char	*value;

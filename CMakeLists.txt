@@ -4,7 +4,7 @@ project(minishell C)
 
 set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-Wall -Wextra -Werror")
 
-add_executable(minishell main.c env.c minishell_split.c execute.c built_ins1.c built_ins2.c expansion.c)
+add_executable(minishell main.c env.c minishell_split.c execute.c built_ins1.c built_ins2.c expansion.c find_executable.c)
 
 add_library(libft STATIC IMPORTED)
 set_target_properties(libft PROPERTIES
