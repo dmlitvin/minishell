@@ -43,6 +43,7 @@ int					main(int ac, char **av, char **env)
 	while (get_next_line(0, &shell_info->line))
 	{
 		shell_info->av = split_arguments(shell_info->line);
+		check_expansion(shell_info);
 		execute_command(shell_info);
 		clear_cycle(shell_info);
 		print_promt(shell_info);

@@ -42,6 +42,7 @@ void			delete_env(char *key, t_minishell *shell_info);
 char			**split_arguments(char *line);
 
 void			execute_command(t_minishell *shell_info);
+void			check_expansion(t_minishell *shell_info);
 char			*find_executable(char **paths, t_minishell *shell_info);
 
 void			echo(t_minishell *shell_info);

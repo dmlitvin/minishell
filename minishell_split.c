@@ -23,8 +23,12 @@ static int	count_size(char *line)
 	{
 		++size;
 		if (*line == '\'' || *line == '\"' || *line == '`')
+		{
 			if (!(line = ft_strchr(line + 1, *line)))
 				return (-1);
+			else
+				continue ;
+		}
 		while (*line && !ft_is_whitespace(line))
 			++line;
 		while (ft_is_whitespace(line))
