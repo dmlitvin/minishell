@@ -15,7 +15,7 @@
 static inline void	print_promt(t_minishell *shell_info)
 {
 	ft_putstr(shell_info->last_exit_code ? RED : GREEN);
-	ft_putstr("lol -> "EOM);
+	ft_putstr(" -> "EOM);
 }
 
 static inline void	clear_cycle(t_minishell *shell_info)
