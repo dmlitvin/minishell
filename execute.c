@@ -51,8 +51,9 @@ static char	*get_path(t_minishell *shell_info)
 	paths = ft_strsplit(get_env("PATH", shell_info), ':');
 	path = find_executable(paths, shell_info);
 	memory_ptr = paths;
-	while (*paths)
-		free(*paths++);
+	if (path)
+		while (*paths)
+			free(*paths++);
 	free(memory_ptr);
 	return (path);
 }

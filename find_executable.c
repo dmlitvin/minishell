@@ -36,7 +36,7 @@ char		*find_executable(char **paths, t_minishell *shell_info)
 {
 	int		file_find_result;
 
-	while (*paths)
+	while (paths && *paths)
 	{
 		file_find_result = find_file(*paths, shell_info->av[0]);
 		if (file_find_result == 1)

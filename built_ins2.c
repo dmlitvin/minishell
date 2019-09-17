@@ -22,7 +22,7 @@ void		echo(t_minishell *shell_info)
 	while (*av)
 	{
 		if (**av)
-			ft_printf(" %s", *av++);
+			ft_printf(" %s", *av);
 		av++;
 	}
 	ft_putchar('\n');
