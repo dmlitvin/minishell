@@ -32,7 +32,10 @@ void		echo(t_minishell *shell_info)
 static char	*get_path(t_minishell *shell_info)
 {
 	if (ft_strequ(shell_info->av[1], "-"))
+	{
+		ft_printf("%s\n", get_env("OLDPWD", shell_info));
 		return (get_env("OLDPWD", shell_info));
+	}
 	else if (ft_strequ(shell_info->av[1], "--") && !shell_info->av[2])
 		return (get_env("HOME", shell_info));
 	else if (ft_strequ(shell_info->av[1], "--") && shell_info->av[2])
