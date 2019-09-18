@@ -6,13 +6,13 @@
 /*   By: dmlitvin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/15 17:17:42 by dmlitvin          #+#    #+#             */
-/*   Updated: 2019/09/15 17:17:50 by dmlitvin         ###   ########.fr       */
+/*   Updated: 2019/09/18 11:38:03 by dmlitvin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	replace_variable(char **line_ptr, t_minishell *shell_info)
+static void			replace_variable(char **line_ptr, t_minishell *shell_info)
 {
 	const char	*var_value = get_env(*line_ptr + 1, shell_info);
 	char		*new_line;
@@ -25,16 +25,21 @@ static void	replace_variable(char **line_ptr, t_minishell *shell_info)
 	*line_ptr = new_line;
 }
 
-static void	replace_tilde(char **line_ptr, t_minishell *shell_info)
+inline static char	*strdup_wrapper(char *str)
+{
+	return (str ? ft_strdup(str) : 0);
+}
+
+static void			replace_tilde(char **line_ptr, t_minishell *shell_info)
 {
 	char		*new_value;
 
 	if (line_ptr[0][1] == '+')
-		new_value = ft_strdup(get_env("PWD", shell_info));
+		new_value = strdup_wrapper(get_env("PWD", shell_info));
 	else if (line_ptr[0][1] == '-')
-		new_value = ft_strdup(get_env("OLDPWD", shell_info));
+		new_value = strdup_wrapper(get_env("OLDPWD", shell_info));
 	else if (!line_ptr[0][1])
-		new_value = ft_strdup(get_env("HOME", shell_info));
+		new_value = strdup_wrapper(get_env("HOME", shell_info));
 	else if (line_ptr[0][1] == '/')
 		new_value = ft_strcat(ft_strcat(ft_memalloc(ft_strlen(get_env("HOME",
 				shell_info) + 2)), get_env("HOME", shell_info)), "/");
@@ -44,7 +49,7 @@ static void	replace_tilde(char **line_ptr, t_minishell *shell_info)
 	*line_ptr = new_value;
 }
 
-void	check_expansion(t_minishell *shell_info)
+void				check_expansion(t_minishell *shell_info)
 {
 	char	**line_ptr;
 
