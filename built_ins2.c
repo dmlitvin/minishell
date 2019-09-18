@@ -53,6 +53,7 @@ static void	change_variables(char *oldpwd, char *pwd, t_minishell *shell_info)
 		delete_env("PWD", shell_info);
 	ft_lstadd(&shell_info->env_list, make_variable("OLDPWD", oldpwd));
 	ft_lstadd(&shell_info->env_list, make_variable("PWD", pwd));
+	shell_info->last_exit_code = 0;
 }
 
 void		cd(t_minishell *shell_info)
@@ -68,12 +69,13 @@ void		cd(t_minishell *shell_info)
 	if (chdir(path) == -1)
 	{
 		if (access(path, 0))
-			ft_putstr_fd("cd : file not found: ", 2);
+			ft_putendl_fd("cd : file not found", 2);
 		else if (access(path, 3))
-			ft_putstr_fd("cd : permission denied: ", 2);
+			ft_putendl_fd("cd : permission denied", 2);
 		else
-			ft_putstr_fd("cd : string not in pwd: ", 2);
-		ft_putendl_fd(path, 2);
+			ft_putendl_fd("cd : string not in pwd", 2);
+		shell_info->last_exit_code = 1;
+		return ;
 	}
 	getcwd(newpwd, sizeof(newpwd));
 	change_variables(oldpwd, newpwd, shell_info);
