@@ -20,6 +20,7 @@ static inline void	print_promt(t_minishell *shell_info)
 
 static inline void	clear_cycle(t_minishell *shell_info)
 {
+	char	*last_code;
 	char	**av;
 
 	av = shell_info->av;
@@ -27,6 +28,9 @@ static inline void	clear_cycle(t_minishell *shell_info)
 		free(*av++);
 	free(shell_info->av);
 	free(shell_info->line);
+	ft_lstadd(&shell_info->env_list, make_variable("0",
+		(last_code = ft_itoa(shell_info->last_exit_code))));
+	free(last_code);
 }
 
 int					main(int ac, char **av, char **env)
